@@ -1,0 +1,30 @@
+diff --git a/dist/utilities/Modal/stores.d.ts b/dist/utilities/Modal/stores.d.ts
+index 662b649e4cb36bb58d3eb2621a4ddb0f0a42b9bd..6ee96cef2773c2fc3b810d23407639a52c95b3aa 100644
+--- a/dist/utilities/Modal/stores.d.ts
++++ b/dist/utilities/Modal/stores.d.ts
+@@ -4,7 +4,7 @@ export declare const modalStore: {
+     set: (this: void, value: ModalSettings[]) => void;
+     update: (this: void, updater: import("svelte/store").Updater<ModalSettings[]>) => void;
+     /** Append to end of queue. */
+-    trigger: (modal: ModalSettings) => void;
++    trigger: (modal: ModalSettings, isOnTop?: boolean) => void;
+     /**  Remove first item in queue. */
+     close: () => void;
+     /** Remove all items from queue. */
+diff --git a/dist/utilities/Modal/stores.js b/dist/utilities/Modal/stores.js
+index 82eb86a225db05afb50f46715d035cc60be3eb53..b8403616ca3cc515ae2528a3c0896a7e24ff4d4e 100644
+--- a/dist/utilities/Modal/stores.js
++++ b/dist/utilities/Modal/stores.js
+@@ -7,8 +7,10 @@ function modalService() {
+         set,
+         update,
+         /** Append to end of queue. */
+-        trigger: (modal) => update((mStore) => {
+-            mStore.push(modal);
++        trigger: (modal, isOnTop = false) => update((mStore) => {
++            if (isOnTop) mStore.unshift(modal);
++						else mStore.push(modal);
++						
+             return mStore;
+         }),
+         /**  Remove first item in queue. */
