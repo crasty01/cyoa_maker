@@ -1,17 +1,22 @@
 import type { CardCondition, CardInfo, PointInfo, RowInfo } from '$lib/stores/data';
 import {
-	createBasicCard,
-	createBasicPoint,
-	createBasicRow,
+	createAndSaveBasicCard,
+	createAndSaveBasicPoint,
+	createAndSaveBasicRow,
 	getPointValue
 } from '$lib/functions/basicDataGeneration';
-import { get } from 'svelte/store';
 
 export const createChooseTreeRow = () => {
-	const row: RowInfo = createBasicRow({
-		description: 'Choose up to 3 cards'
+	const row: RowInfo = createAndSaveBasicRow({
+		description: 'Choose up to 3 cards',
+		cardDefault: {
+			max_stack: 1,
+			price: -1,
+			pointId: undefined,
+			show_price: false
+		}
 	});
-	const point: PointInfo = createBasicPoint({
+	const point: PointInfo = createAndSaveBasicPoint({
 		name: `row-${row.id}-point`,
 		visible: false,
 		min: 0,
@@ -19,10 +24,5 @@ export const createChooseTreeRow = () => {
 		starting: 3
 	});
 
-	const cardCreationFn = (row: RowInfo, card: CardInfo): CardInfo => ({
-		...card,
-		price: -1,
-		pointId: point.id
-	});
-	row.cardCreationFn = cardCreationFn;
+	row.cardDefault.pointId = point.id;
 };

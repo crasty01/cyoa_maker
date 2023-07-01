@@ -1,12 +1,14 @@
 <script lang="ts">
 	import { type RowInfo, dataStore } from '$lib/stores/data';
-	import { createBasicCard } from '$lib/functions/basicDataGeneration';
+	import { createAndSaveBasicCard, getFlagValue } from '$lib/functions/basicDataGeneration';
 	import { modalStore } from '@skeletonlabs/skeleton';
 	import CYOARowEdit from './CYOARowEdit.svelte';
 	import CYOACard from './CYOACard.svelte';
 
 	export let row: RowInfo;
 	export let rowIndex: number;
+
+	$: connectedflagValue = row.flagId ? getFlagValue($dataStore.flags.get(row.flagId)!) : true;
 
 	const showRowEditModal = async () => {
 		const response = await new Promise<RowInfo>((resolve) =>
@@ -28,7 +30,7 @@
 	};
 
 	const addCard = () => {
-		const card = createBasicCard(rowIndex);
+		const card = createAndSaveBasicCard(rowIndex);
 		$dataStore.rows[rowIndex].cards.push(card.id);
 	};
 
@@ -42,19 +44,17 @@
 			})
 		);
 
-		console.log('response:', response);
+		if (response !== true) return;
 
-		if (response === true) {
-			for (const cardId of row.cards) {
-				$dataStore.cards.delete(cardId);
-			}
-			$dataStore.rows.splice(rowIndex, 1);
-			$dataStore.rows = $dataStore.rows; // trigger update
+		for (const cardId of row.cards) {
+			$dataStore.cards.delete(cardId);
 		}
-	};
+		$dataStore.rows.splice(rowIndex, 1);
+		$dataStore.rows = $dataStore.rows; // trigger update
+	}
 </script>
 
-<div class="cyoa_row card variant-ghost-surface relative p-4">
+<div class="cyoa_row card variant-ghost-surface relative p-4 {connectedflagValue ? '' : 'opacity-40'}">
 	<h2 class="h2 font-extrabold">{row.name}</h2>
 	<p>{row.description}</p>
 

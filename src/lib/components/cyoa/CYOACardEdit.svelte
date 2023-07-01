@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { createBasicPoint } from '$lib/functions/basicDataGeneration';
+	import { createAndSaveBasicPoint } from '$lib/functions/basicDataGeneration';
 	import { dataStore, type CardInfo } from '$lib/stores/data';
 	import Icon from '@iconify/svelte';
 	import { modalStore } from '@skeletonlabs/skeleton';
@@ -38,6 +38,16 @@
 					placeholder="Enter description..."
 				/>
 			</label>
+			
+			<label class="label">
+				<span>flag</span>
+				<select class="input" bind:value={formData.flagId}>
+					<option value={undefined}>-</option>
+					{#each $dataStore.flags.entries() as [index, flag]}
+						<option value={flag.id}>{flag.name}</option>
+					{/each}
+				</select>
+			</label>
 
 			{#if $dataStore.points.size > 0}
 				<label class="label">
@@ -70,15 +80,14 @@
 					</div>
 					<!-- Actions -->
 					<div class="alert-actions">
-						<button type="button" class="btn variant-filled" on:click={() => createBasicPoint()}>
+						<button type="button" class="btn variant-filled" on:click={() => createAndSaveBasicPoint()}>
 							<span>add point type</span>
 						</button>
 					</div>
 				</aside>
 			{/if}
 
-			<!-- svelte-ignore a11y-label-has-associated-control -->
-			<label class="label flex items-end gap-2">
+			<label class="label">
 				<span>max stack</span>
 				<input
 					class="input"
@@ -86,6 +95,11 @@
 					bind:value={formData.max_stack}
 					placeholder="Enter max stack..."
 				/>
+			</label>
+
+			<label class="label">
+				<span>show price</span>
+				<input type="checkbox" class="input w-4" bind:checked={formData.show_price} />
 			</label>
 		</form>
 

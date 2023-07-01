@@ -5,7 +5,7 @@
 	import { dataStore, type CardInfo } from '$lib/stores/data';
 	import type { PopupSettings } from '@skeletonlabs/skeleton';
 	import CYOACardEdit from './CYOACardEdit.svelte';
-	import { getPointValue } from '$lib/functions/basicDataGeneration';
+	import { getFlagValue, getPointValue } from '$lib/functions/basicDataGeneration';
 
 	export let card: CardInfo;
 
@@ -15,6 +15,9 @@
 		target: popupId,
 		placement: 'left'
 	} as PopupSettings;
+	$: connectedflagValue = card.flagId ? getFlagValue($dataStore.flags.get(card.flagId)!) : true;
+	$: parentRowFlagId = $dataStore.rows[card.rowIndex].flagId
+	$: connectedflagValueRow = parentRowFlagId ? getFlagValue($dataStore.flags.get(parentRowFlagId)!) : true;
 
 	const selectCard = (toAdd?: -1 | 1) => {
 		// if (!card?.pointId) return;
@@ -70,10 +73,10 @@
 <div
 	class="card relative h-full flex-grow p-4 {card.selected > 0
 		? 'variant-ghost-primary'
-		: 'variant-ghost-surface'}"
+		: 'variant-ghost-surface'} {connectedflagValue || !connectedflagValueRow ? '' : 'opacity-40'}"
 >
 	<h3 class="h3 pb-2 font-bold">{card.name}</h3>
-	<div>price: {card.price}</div>
+	<div class="{card.show_price ? '' : 'line-through'}">price: {card.price}</div>
 	<div>description: {card.description}</div>
 	<div>selected: {card.selected}</div>
 	<div>max stack: {card.max_stack}</div>

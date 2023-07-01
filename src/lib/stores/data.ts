@@ -19,15 +19,17 @@ export type CardInfo = {
 	selected: number;
 	max_stack: number;
 	rowIndex: number;
+	flagId?: string;
 };
 
 export type RowInfo = {
 	id: string;
 	name: string;
-	cardCreationFn?: (row: RowInfo, card: CardInfo) => CardInfo;
 	description: string;
 	cards: Array<string>;
 	flags: Array<string>;
+	cardDefault: Pick<CardInfo, 'max_stack' | 'pointId' | 'price' | 'show_price' | 'flagId'>;
+	flagId?: string;
 };
 
 export const evaluationTypes = [

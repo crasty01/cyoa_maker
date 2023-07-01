@@ -34,9 +34,33 @@
 		}
 	};
 
-	const removeFlag = () => {
+	const removeFlag = async () => {
+		const connectedRows = $dataStore.rows.filter((row) => row.flagId === flag.id);
+		const connectedCards = [...$dataStore.cards.values()].filter((card) => card.flagId === flag.id);
+
+		const response = await new Promise<boolean>((resolve) =>
+			modalStore.trigger({
+				type: 'confirm',
+				title: 'Please Confirm',
+				body: `Are you sure you want to remove the flag, you will also remove the connection from ${connectedRows.length} rows and ${connectedCards} cards?`,
+				response: resolve
+			})
+		);
+
+		if (response !== true) return;
+
+
 		$dataStore.flags.delete(flag.id);
-		$dataStore.flags = $dataStore.flags; // trigger update
+
+		for (const row of connectedRows) {
+			row.flagId = undefined;
+		}
+
+		for (const card of connectedCards) {
+			card.flagId = undefined;
+		}
+
+		$dataStore.flags = $dataStore.flags; // trigger update, hopefully for the whole store
 	};
 </script>
 

@@ -5,9 +5,9 @@
 	import { dataStore } from '$lib/stores/data';
 
 	import {
-		createBasicRow,
-		createBasicPoint,
-		createBasicFlag
+		createAndSaveBasicRow,
+		createAndSaveBasicPoint,
+		createAndSaveBasicFlag
 	} from '$lib/functions/basicDataGeneration';
 	import { createChooseTreeRow } from '$lib/functions/advancedDataGeneration';
 
@@ -16,7 +16,7 @@
 
 <div class="fixed bottom-0 right-0 z-10 flex items-end gap-4 p-4">
 	{#if showmenu}
-		<div in:fade out:fade class="w-min min-w-[16rem]">
+		<div in:fade out:fade class="w-min min-w-[20rem]">
 			<Accordion class="card px-2 py-4 text-token">
 				<AccordionItem open>
 					<svelte:fragment slot="lead">
@@ -28,7 +28,7 @@
 							<button
 								type="button"
 								class="btn variant-filled-primary w-full"
-								on:click={() => createBasicRow()}
+								on:click={() => createAndSaveBasicRow()}
 							>
 								add basic row
 							</button>
@@ -52,14 +52,14 @@
 							<button
 								type="button"
 								class="btn variant-filled-primary w-full"
-								on:click={() => createBasicPoint()}
+								on:click={() => createAndSaveBasicPoint()}
 							>
 								add basic point
 							</button>
 							<button
 								type="button"
 								class="btn variant-filled-primary w-full"
-								on:click={() => createBasicPoint({ visible: false })}
+								on:click={() => createAndSaveBasicPoint({ visible: false })}
 							>
 								add invisible point
 							</button>
@@ -76,7 +76,7 @@
 							<button
 								type="button"
 								class="btn variant-filled-primary w-full"
-								on:click={() => createBasicFlag()}
+								on:click={() => createAndSaveBasicFlag()}
 							>
 								add basic flag
 							</button>

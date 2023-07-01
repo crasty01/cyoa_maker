@@ -34,8 +34,26 @@
 		}
 	};
 
-	const removePoint = () => {
+	const removePoint = async () => {
+		const connectedCards = [...$dataStore.cards.values()].filter((card) => card.pointId === point.id);
+
+		const response = await new Promise<boolean>((resolve) =>
+			modalStore.trigger({
+				type: 'confirm',
+				title: 'Please Confirm',
+				body: `Are you sure you want to remove the point, you will also remove the connection from ${connectedCards.length} cards?`,
+				response: resolve
+			})
+		);
+
+		if (response !== true) return;
+
 		$dataStore.points.delete(point.id);
+
+		for (const card of connectedCards) {
+			card.pointId = undefined;
+		}
+		
 		$dataStore.points = $dataStore.points; // trigger update
 	};
 </script>
