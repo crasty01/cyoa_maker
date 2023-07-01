@@ -10,6 +10,7 @@
 		createAndSaveBasicFlag
 	} from '$lib/functions/basicDataGeneration';
 	import { createChooseTreeRow } from '$lib/functions/advancedDataGeneration';
+	import { sendDataToBackend } from '$lib/functions/save';
 
 	let showmenu = true;
 
@@ -25,6 +26,46 @@
 
 		if (response !== true) return;
 		else clearDataStore();
+	};
+
+	const save = async () => {
+		const name = await new Promise<string>((resolve) =>
+			modalStore.trigger({
+				type: 'prompt',
+				title: 'Write the name of the cyoa',
+				value: '',
+				valueAttr: {
+					required: true,
+					type: 'text',
+					minlength: 5,
+					maxlength: 50,
+				},
+				response: resolve
+			})
+		);
+		console.log('name:', name);
+		if (!name) return;
+
+		const pasword = await new Promise<string>((resolve) =>
+			modalStore.trigger({
+				type: 'prompt',
+				title: 'Write the password for the cyoa',
+				value: '',
+				valueAttr: {
+					required: true,
+					type: 'password',
+					minlength: 5,
+					maxlength: 50,
+				},
+				response: resolve
+			})
+		);
+		console.log('pasword:', pasword);
+
+		if (!pasword) return;
+		
+		
+		await sendDataToBackend($dataStore, name, pasword, true);
 	};
 </script>
 
@@ -111,6 +152,13 @@
 							>
 								clear
 							</button>
+							<button
+								type="button"
+								class="btn variant-filled-error w-full"
+								on:click={() => save()}
+							>
+								save
+							</button>
 						</div>
 					</svelte:fragment>
 				</AccordionItem>
@@ -119,6 +167,12 @@
 	{/if}
 
 	<div class="fab flex flex-col gap-4">
+		<a
+			href="/"
+			class="btn-icon btn-icon-lg variant-filled-surface"
+		>
+			<Icon icon="material-symbols:home-rounded" class="text-2xl" />
+		</a>
 		<a
 			href="https://github.com/crasty01/cyoa_maker"
 			target="_blank"

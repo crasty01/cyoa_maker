@@ -38,7 +38,8 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@floating-ui/dom": "^1.4.2"
+		"@floating-ui/dom": "^1.4.2",
+		"deta": "^1.1.0"
 	},
 	"pnpm": {
 		"patchedDependencies": {
