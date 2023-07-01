@@ -10,9 +10,10 @@
 			<Icon icon="material-symbols:edit-rounded" />
 			<span>Start creating</span>
 		</a>
-		<a href="/view" type="button" class="btn variant-ghost-primary justify-start">
+		<!-- href="/view" -->
+		<button type="button" class="btn variant-ghost-primary chip-disabled justify-start">
 			<Icon icon="material-symbols:search-rounded" />
 			<span>view</span>
-		</a>
+		</button>
 	</div>
 </div>
