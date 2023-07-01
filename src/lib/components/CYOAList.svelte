@@ -5,7 +5,7 @@
 	import { Stepper, Step, ListBox, ListBoxItem, modalStore } from '@skeletonlabs/skeleton';
 
 	const rawData = getNamesFromBackend();
-	let name: string | undefined = undefined;
+	let key: string | undefined = undefined;
 	let password: string | undefined = undefined;
 	let loading = false;
 	let error: string | undefined = undefined;
@@ -13,7 +13,10 @@
 	const complete = async () => {
 		loading = true;
 		try {
-			const data = await getDataFromBackend(name!, password!);
+			const name = (await rawData).items.find(item => item.key === key)?.name;
+			if (!name) throw new Error('name not found');
+			if (!password) throw new Error('password not found');
+			const data = await getDataFromBackend(name, password);
 			dataStore.set(data);
 			goto('/create');
 		} catch (error: any) {
@@ -34,7 +37,7 @@
 			{:then data}
 				<ListBox>
 					{#each data.items as item}
-						<ListBoxItem bind:group={name} name="medium" value={item.key}>
+						<ListBoxItem bind:group={key} name="medium" value={item.key}>
 							<span>{item.name}</span>
 							<svelte:fragment slot="trail">{item.isShared ? 'shared' : 'not shared'}</svelte:fragment>
 						</ListBoxItem>
