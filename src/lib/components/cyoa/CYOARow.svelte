@@ -6,7 +6,7 @@
 	import CYOACard from './CYOACard.svelte';
 
 	export let row: RowInfo;
-	export let rowIndex: number;
+	export let rowId: string;
 
 	$: connectedflagValue = row.flagId ? getFlagValue($dataStore.flags.get(row.flagId)!) : true;
 
@@ -25,21 +25,30 @@
 		console.log('response:', response);
 
 		if (response) {
-			$dataStore.rows[rowIndex] = response;
+			$dataStore.rows.set(rowId, response);
+			$dataStore.rows = $dataStore.rows; // trigger update
 		}
 	};
 
 	const addCard = () => {
-		const card = createAndSaveBasicCard(rowIndex);
-		$dataStore.rows[rowIndex].cards.push(card.id);
+		const row = $dataStore.rows.get(rowId);
+		if (!row) throw new Error('Row not found');
+
+		const card = createAndSaveBasicCard(rowId);
+		row.cards.push(card.id);
+
+		$dataStore.rows = $dataStore.rows; // trigger update
 	};
 
 	const removeRow = async () => {
+		const row = $dataStore.rows.get(rowId);
+		if (!row) throw new Error('Row not found');
+
 		const response = await new Promise<boolean>((resolve) =>
 			modalStore.trigger({
 				type: 'confirm',
 				title: 'Please Confirm',
-				body: `Are you sure you want to remove the row and all (${$dataStore.rows[rowIndex].cards.length}) cards inside?`,
+				body: `Are you sure you want to remove the row and all (${row.cards.length}) cards inside?`,
 				response: resolve
 			})
 		);
@@ -49,7 +58,8 @@
 		for (const cardId of row.cards) {
 			$dataStore.cards.delete(cardId);
 		}
-		$dataStore.rows.splice(rowIndex, 1);
+		$dataStore.rowsArray.splice($dataStore.rowsArray.indexOf(rowId), 1);
+		$dataStore.rows.delete(rowId);
 		$dataStore.rows = $dataStore.rows; // trigger update
 	}
 </script>

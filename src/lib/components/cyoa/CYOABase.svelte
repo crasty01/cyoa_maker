@@ -6,8 +6,11 @@
 </script>
 
 <div class="list p-4">
-	{#each $dataStore.rows.entries() as [index, row]}
-		<CYOARow {row} rowIndex={index} />
+	{#each $dataStore.rowsArray as rowId}
+		{@const row = $dataStore.rows.get(rowId)}
+		{#if row}
+			<CYOARow {row} {rowId} />
+		{/if}
 	{/each}
 </div>
 

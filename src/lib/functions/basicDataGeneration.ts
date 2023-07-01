@@ -27,11 +27,11 @@ export const createAndSaveBasicRow = (options?: Partial<RowInfo>): RowInfo => {
 		...options
 	};
 
-	if (_dataStore.rows.find((r) => r.id === row.id))
-		throw new Error(`row id ${row.id} already exists`);
+	if (_dataStore.rows.has(row.id)) throw new Error(`row id ${row.id} already exists`);
 
 	dataStore.update((store) => {
-		store.rows.push(row);
+		store.rows.set(row.id, row);
+		store.rowsArray.push(row.id);
 		return store;
 	});
 
@@ -39,13 +39,13 @@ export const createAndSaveBasicRow = (options?: Partial<RowInfo>): RowInfo => {
 };
 
 export const createAndSaveBasicCard = (
-	rowIndex: number,
-	options?: Partial<Omit<CardInfo, 'rowIndex'>>
+	rowId: string,
+	options?: Partial<Omit<CardInfo, 'rowId'>>
 ): CardInfo => {
 	const _dataStore = get(dataStore);
 
 	const card: CardInfo = {
-		...defaultBasicCardOptions(rowIndex, _dataStore),
+		...defaultBasicCardOptions(rowId, _dataStore),
 		...options
 	};
 

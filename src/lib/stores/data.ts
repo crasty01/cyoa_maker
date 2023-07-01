@@ -18,7 +18,7 @@ export type CardInfo = {
 	pointId?: string;
 	selected: number;
 	max_stack: number;
-	rowIndex: number;
+	rowId: string;
 	flagId?: string;
 };
 
@@ -26,7 +26,7 @@ export type RowInfo = {
 	id: string;
 	name: string;
 	description: string;
-	cards: Array<string>;
+	cards: Array<string>; // just for ordering
 	flags: Array<string>;
 	cardDefault: Pick<CardInfo, 'max_stack' | 'pointId' | 'price' | 'show_price' | 'flagId'>;
 	flagId?: string;
@@ -74,17 +74,23 @@ export type DataStore = {
 	points: Map<string, PointInfo>;
 	flags: Map<string, FlagInfo>;
 	cards: Map<string, CardInfo>;
-	rows: Array<RowInfo>;
+	rows: Map<string, RowInfo>;
+	rowsArray: Array<string>; // just for ordering
 
 	// TODO: Add styles/calsses
 };
 
-const defaultDataStore: DataStore = {
+const createDefaultDataStore = (): DataStore => ({
 	isBeingEdited: true,
 	points: new Map<string, PointInfo>(),
 	flags: new Map<string, FlagInfo>(),
 	cards: new Map<string, CardInfo>(),
-	rows: []
-};
+	rows: new Map<string, RowInfo>(),
+	rowsArray: []
+});
 
-export const dataStore = writable<DataStore>(defaultDataStore);
+export const dataStore = writable<DataStore>(createDefaultDataStore());
+
+export const clearDataStore = () => {
+	dataStore.set(createDefaultDataStore());
+};

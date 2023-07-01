@@ -8,21 +8,21 @@ const defaultBasicCardOptionsShared = () => ({
 	// flagId: 'DEFAULT'
 });
 
-export const defaultBasicCardOptions = (rowIndex: number, dataStore: DataStore): CardInfo => ({
+export const defaultBasicCardOptions = (rowId: string, dataStore: DataStore): CardInfo => ({
 	id: crypto.getRandomValues(new Uint32Array(1))[0].toString(16),
 	name: 'New Card',
 	description: 'a blank card',
 	selected: 0,
-	rowIndex,
+	rowId,
 	...{
 		...defaultBasicCardOptionsShared(),
-		...dataStore.rows[rowIndex].cardDefault
+		...dataStore.rows.get(rowId)?.cardDefault
 	}
 });
 
 export const defaultBasicRowOptions = (dataStore: DataStore): RowInfo => ({
 	id: crypto.getRandomValues(new Uint32Array(1))[0].toString(16),
-	name: `Row_${(dataStore.rows.length + 1).toFixed(0).padStart(2, '0')}`,
+	name: `Row_${(dataStore.rows.size + 1).toFixed(0).padStart(2, '0')}`,
 	description: 'a blank row',
 	cards: [],
 	flags: [],

@@ -16,7 +16,7 @@
 		placement: 'left'
 	} as PopupSettings;
 	$: connectedflagValue = card.flagId ? getFlagValue($dataStore.flags.get(card.flagId)!) : true;
-	$: parentRowFlagId = $dataStore.rows[card.rowIndex].flagId
+	$: parentRowFlagId = $dataStore.rows.get(card.rowId)!.flagId
 	$: connectedflagValueRow = parentRowFlagId ? getFlagValue($dataStore.flags.get(parentRowFlagId)!) : true;
 
 	const selectCard = (toAdd?: -1 | 1) => {
@@ -63,10 +63,15 @@
 	};
 
 	const removeCard = () => {
-		$dataStore.rows[card.rowIndex].cards = $dataStore.rows[card.rowIndex].cards.filter(
+		const row = $dataStore.rows.get(card.rowId);
+		if (!row) throw new Error('Row not found');
+
+		row.cards = row.cards.filter(
 			(id) => id !== card.id
 		);
+
 		$dataStore.cards.delete(card.id);
+		$dataStore.rows = $dataStore.rows; // trigger update
 	};
 </script>
 

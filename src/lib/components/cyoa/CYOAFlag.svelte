@@ -35,7 +35,7 @@
 	};
 
 	const removeFlag = async () => {
-		const connectedRows = $dataStore.rows.filter((row) => row.flagId === flag.id);
+		const connectedRows = [...$dataStore.rows.values()].filter((row) => row.flagId === flag.id);
 		const connectedCards = [...$dataStore.cards.values()].filter((card) => card.flagId === flag.id);
 
 		const response = await new Promise<boolean>((resolve) =>

@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { fade } from 'svelte/transition';
 	import Icon from '@iconify/svelte';
-	import { Accordion, AccordionItem } from '@skeletonlabs/skeleton';
-	import { dataStore } from '$lib/stores/data';
+	import { Accordion, AccordionItem, modalStore } from '@skeletonlabs/skeleton';
+	import { clearDataStore, dataStore } from '$lib/stores/data';
 
 	import {
 		createAndSaveBasicRow,
@@ -12,12 +12,26 @@
 	import { createChooseTreeRow } from '$lib/functions/advancedDataGeneration';
 
 	let showmenu = true;
+
+	const clear = async () => {
+		const response = await new Promise<boolean>((resolve) =>
+			modalStore.trigger({
+				type: 'confirm',
+				title: 'Please Confirm',
+				body: `Are you cure you want to completly clear out current state?`,
+				response: resolve
+			})
+		);
+
+		if (response !== true) return;
+		else clearDataStore();
+	};
 </script>
 
 <div class="fixed bottom-0 right-0 z-10 flex items-end gap-4 p-4">
 	{#if showmenu}
 		<div in:fade out:fade class="w-min min-w-[20rem]">
-			<Accordion class="card px-2 py-4 text-token">
+			<Accordion class="card px-2 py-4 text-token" regionControl="bg-surface-300-600-token">
 				<AccordionItem open>
 					<svelte:fragment slot="lead">
 						<Icon class="text-2xl" icon="material-symbols:create-new-folder-rounded" />
@@ -68,7 +82,7 @@
 				</AccordionItem>
 				<AccordionItem open>
 					<svelte:fragment slot="lead">
-						<Icon class="text-2xl" icon="material-symbols:monetization-on-rounded" />
+						<Icon class="text-2xl" icon="material-symbols:flag-rounded" />
 					</svelte:fragment>
 					<svelte:fragment slot="summary">flags</svelte:fragment>
 					<svelte:fragment slot="content">
@@ -79,6 +93,23 @@
 								on:click={() => createAndSaveBasicFlag()}
 							>
 								add basic flag
+							</button>
+						</div>
+					</svelte:fragment>
+				</AccordionItem>
+				<AccordionItem>
+					<svelte:fragment slot="lead">
+						<Icon class="text-2xl" icon="ic:round-settings" />
+					</svelte:fragment>
+					<svelte:fragment slot="summary">others & danger</svelte:fragment>
+					<svelte:fragment slot="content">
+						<div class="list">
+							<button
+								type="button"
+								class="btn variant-filled-error w-full"
+								on:click={() => clear()}
+							>
+								clear
 							</button>
 						</div>
 					</svelte:fragment>
