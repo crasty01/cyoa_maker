@@ -50,11 +50,9 @@ I welcome contributions to enhance the Interactive CYOA Maker. If you're interes
 - [ ] Implement a preview feature to visualize the story flow and choices.
 - [ ] Add a feature to export stories in different formats (e.g., PDF, HTML).
 - [ ] Implement a search functionality to find specific sections or choices within a story.
-- [ ] Add support for collaborative story creation and editing.
 - [ ] Enhance error handling and validation for better user feedback.
 - [ ] Improve accessibility and ensure compatibility across different browsers.
 - [ ] Write comprehensive documentation and provide usage examples.
-- [ ] Explore options for monetization or additional features based on user feedback.
 
 Feel free to contribute to this project by working on any of the above tasks. Make sure to follow the contribution guidelines mentioned earlier in this document.
 
