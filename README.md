@@ -17,7 +17,7 @@ Interactive CYOA Maker is a hobby project created to address the need for a more
 
 
 ```
-git clone https://github.com/crasty01/interactive-cyoa-maker.git
+git clone https://github.com/crasty01/cyoa_maker.git
 ```
 
 2. **Dependencies:** Install the necessary dependencies by running the following command:

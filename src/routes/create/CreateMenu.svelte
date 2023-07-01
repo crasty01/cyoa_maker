@@ -89,7 +89,7 @@
 
 	<div class="fab flex flex-col gap-4">
 		<a
-			href="https://github.com/crasty01"
+			href="https://github.com/crasty01/cyoa_maker"
 			target="_blank"
 			class="btn-icon btn-icon-lg variant-filled-surface"
 		>
