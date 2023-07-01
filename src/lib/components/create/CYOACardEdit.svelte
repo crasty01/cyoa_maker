@@ -38,7 +38,7 @@
 					placeholder="Enter description..."
 				/>
 			</label>
-			
+
 			<label class="label">
 				<span>flag</span>
 				<select class="input" bind:value={formData.flagId}>
@@ -80,7 +80,11 @@
 					</div>
 					<!-- Actions -->
 					<div class="alert-actions">
-						<button type="button" class="btn variant-filled" on:click={() => createAndSaveBasicPoint()}>
+						<button
+							type="button"
+							class="btn variant-filled"
+							on:click={() => createAndSaveBasicPoint()}
+						>
 							<span>add point type</span>
 						</button>
 					</div>

@@ -16,16 +16,14 @@
 		);
 
 		console.log('item:', item);
-
 	};
 </script>
 
-<div class="w-full h-full grid place-content-around">
-	
+<div class="grid h-full w-full place-content-around">
 	<div class="card variant-ghost-primary p-8">
 		<h1 class="h1 text-4xl font-extrabold">Interactive CYOA maker</h1>
 		<p class="text-lg font-normal">Craft your own interactive story without limitations!</p>
-		<div class="links list-none pt-4 flex flex-col gap-2 w-fit">
+		<div class="links flex w-fit list-none flex-col gap-2 pt-4">
 			<a href="/create" type="button" class="btn variant-filled-primary justify-start">
 				<Icon icon="material-symbols:edit-rounded" />
 				<span>Start creating</span>

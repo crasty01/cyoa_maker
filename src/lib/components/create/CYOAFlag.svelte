@@ -49,7 +49,6 @@
 
 		if (response !== true) return;
 
-
 		$dataStore.flags.delete(flag.id);
 
 		for (const row of connectedRows) {

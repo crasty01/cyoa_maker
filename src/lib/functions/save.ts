@@ -1,17 +1,19 @@
 import type { CardInfo, FlagInfo, PointInfo, RowInfo, DataStore } from '$lib/stores/data';
 
-const simplifyDataStore = (data: DataStore): {
-	cards: Array<CardInfo>,
-	flags: Array<FlagInfo>,
-	points: Array<PointInfo>,
-	rows: Array<RowInfo>,
-	rowsArray: Array<string>
+const simplifyDataStore = (
+	data: DataStore
+): {
+	cards: Array<CardInfo>;
+	flags: Array<FlagInfo>;
+	points: Array<PointInfo>;
+	rows: Array<RowInfo>;
+	rowsArray: Array<string>;
 } => ({
 	cards: [...data.cards.values()],
 	flags: [...data.flags.values()],
 	points: [...data.points.values()],
 	rows: [...data.rows.values()],
-	rowsArray: data.rowsArray,
+	rowsArray: data.rowsArray
 });
 
 export const stringify = (data: DataStore): string =>
@@ -37,7 +39,7 @@ const hash = async (password: string, salt: string): Promise<string> => {
 	const key = await crypto.subtle.importKey(
 		'raw',
 		encoder.encode(password),
-		{name: 'PBKDF2'},
+		{ name: 'PBKDF2' },
 		false,
 		['deriveBits', 'deriveKey']
 	);
@@ -54,8 +56,12 @@ const hash = async (password: string, salt: string): Promise<string> => {
 	return btoa(String.fromCharCode(...new Uint8Array(bits)));
 };
 
-
-export const sendDataToBackend = async (data: DataStore, name: string, password: string, isShared: boolean) => {
+export const sendDataToBackend = async (
+	data: DataStore,
+	name: string,
+	password: string,
+	isShared: boolean
+) => {
 	await fetch('/api/cyoa', {
 		method: 'POST',
 		body: JSON.stringify({
@@ -63,11 +69,11 @@ export const sendDataToBackend = async (data: DataStore, name: string, password:
 			meta: {
 				name,
 				isShared,
-				hash: await hash(password, name),
+				hash: await hash(password, name)
 			}
 		})
-	})
-}
+	});
+};
 
 export const getDataFromBackend = async (name: string, password: string): Promise<DataStore> => {
 	const params = new URLSearchParams();
@@ -82,15 +88,18 @@ export const getDataFromBackend = async (name: string, password: string): Promis
 	} else {
 		throw new Error('Invalid name or key');
 	}
-}
+};
 
-export const getNamesFromBackend = async (last?: string): Promise<{
+export const getNamesFromBackend = async (
+	last?: string
+): Promise<{
 	items: Array<{
-		name: string,
-		isShared: boolean,
-		key: string,
-	}>,
-	last?: string,
+		name: string;
+		isShared: boolean;
+		key: string;
+	}>;
+	last?: string;
+	count: number;
 }> => {
 	const params = new URLSearchParams();
 	if (last) {
@@ -105,4 +114,4 @@ export const getNamesFromBackend = async (last?: string): Promise<{
 	} else {
 		throw new Error('Could not get names');
 	}
-}
+};

@@ -35,7 +35,9 @@
 	};
 
 	const removePoint = async () => {
-		const connectedCards = [...$dataStore.cards.values()].filter((card) => card.pointId === point.id);
+		const connectedCards = [...$dataStore.cards.values()].filter(
+			(card) => card.pointId === point.id
+		);
 
 		const response = await new Promise<boolean>((resolve) =>
 			modalStore.trigger({
@@ -53,7 +55,7 @@
 		for (const card of connectedCards) {
 			card.pointId = undefined;
 		}
-		
+
 		$dataStore.points = $dataStore.points; // trigger update
 	};
 </script>

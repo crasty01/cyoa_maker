@@ -15,7 +15,6 @@ Interactive CYOA Maker is a hobby project created to address the need for a more
 
 1. **Installation:** Clone this repository to your local machine.
 
-
 ```
 git clone https://github.com/crasty01/cyoa_maker.git
 ```
@@ -25,11 +24,13 @@ git clone https://github.com/crasty01/cyoa_maker.git
 ```
 pnpm install
 ```
+
 3. **Development Server:** Start the development server to begin using the CYOA Maker.
 
 ```
 pnpm run dev
 ```
+
 4. **Open in Browser:** Open your preferred web browser and navigate to `http://localhost:5173` to access the CYOA Maker.
 
 ## Contributing

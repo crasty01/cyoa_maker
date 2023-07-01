@@ -61,12 +61,14 @@
 		$dataStore.rowsArray.splice($dataStore.rowsArray.indexOf(rowId), 1);
 		$dataStore.rows.delete(rowId);
 		$dataStore.rows = $dataStore.rows; // trigger update
-	}
+	};
 </script>
 
-<div class="cyoa_row card variant-ghost-surface relative p-4 {connectedflagValue ? '' : 'opacity-40'}">
-	<h2 class="h2 font-extrabold">{row.name}</h2>
-	<p>{row.description}</p>
+<div
+	class="cyoa_row card variant-ghost-surface relative p-4 {connectedflagValue ? '' : 'opacity-40'}"
+>
+	<h2 class="h2 pb-2 font-extrabold">{row.name}</h2>
+	<p class="max-w-xl">{row.description}</p>
 
 	{#if row.cards.length > 0}
 		<div class="mt-4 flex flex-wrap gap-2">

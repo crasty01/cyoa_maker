@@ -16,8 +16,10 @@
 		placement: 'left'
 	} as PopupSettings;
 	$: connectedflagValue = card.flagId ? getFlagValue($dataStore.flags.get(card.flagId)!) : true;
-	$: parentRowFlagId = $dataStore.rows.get(card.rowId)!.flagId
-	$: connectedflagValueRow = parentRowFlagId ? getFlagValue($dataStore.flags.get(parentRowFlagId)!) : true;
+	$: parentRowFlagId = $dataStore.rows.get(card.rowId)!.flagId;
+	$: connectedflagValueRow = parentRowFlagId
+		? getFlagValue($dataStore.flags.get(parentRowFlagId)!)
+		: true;
 
 	const selectCard = (toAdd?: -1 | 1) => {
 		// if (!card?.pointId) return;
@@ -66,9 +68,7 @@
 		const row = $dataStore.rows.get(card.rowId);
 		if (!row) throw new Error('Row not found');
 
-		row.cards = row.cards.filter(
-			(id) => id !== card.id
-		);
+		row.cards = row.cards.filter((id) => id !== card.id);
 
 		$dataStore.cards.delete(card.id);
 		$dataStore.rows = $dataStore.rows; // trigger update
@@ -76,26 +76,29 @@
 </script>
 
 <div
-	class="card relative h-full flex-grow p-4 {card.selected > 0
+	class="card relative flex flex-col flex-grow p-4 {card.selected > 0
 		? 'variant-ghost-primary'
 		: 'variant-ghost-surface'} {connectedflagValue || !connectedflagValueRow ? '' : 'opacity-40'}"
 >
-	<h3 class="h3 pb-2 font-bold">{card.name}</h3>
-	<div class="{card.show_price ? '' : 'line-through'}">price: {card.price}</div>
-	<div>description: {card.description}</div>
-	<div>selected: {card.selected}</div>
-	<div>max stack: {card.max_stack}</div>
+	<div class="flex items-baseline gap-4">
+		<h3 class="h3 pb-2 font-bold">{card.name}</h3>
+		<div class={card.show_price ? '' : 'line-through'}>price: {card.price}</div>
+	</div>
+	<p class="max-w-xl">{card.description}</p>
 
-	<div class="card__footer mt-4">
+	<div class="card__footer mt-4 flex-grow flex flex-col justify-end">
 		{#if card.max_stack > 1}
-			<button type="button" class="btn variant-filled-primary" on:click={() => selectCard(+1)}>
-				<Icon icon="material-symbols:add-rounded" />
-				<span>add</span>
-			</button>
-			<button type="button" class="btn variant-filled-primary" on:click={() => selectCard(-1)}>
-				<Icon icon="material-symbols:remove-rounded" />
-				<span>remove</span>
-			</button>
+			<div class="flex justify-center items-center gap-4">
+				<button type="button" class="btn variant-filled-primary" on:click={() => selectCard(+1)}>
+					<Icon icon="material-symbols:add-rounded" />
+					<span>add</span>
+				</button>
+				<span class="card px-4 py-2">{card.selected} / {card.max_stack}</span>
+				<button type="button" class="btn variant-filled-primary" on:click={() => selectCard(-1)}>
+					<Icon icon="material-symbols:remove-rounded" />
+					<span>remove</span>
+				</button>
+			</div>
 		{:else}
 			<button type="button" class="btn variant-filled-primary w-full" on:click={() => selectCard()}>
 				<span>select</span>

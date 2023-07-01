@@ -11,14 +11,14 @@ export async function POST(event) {
 
 	await cyoaDrive.put(filename, {
 		data: JSON.stringify(cyoa),
-		contentType: 'application/json',
+		contentType: 'application/json'
 	});
 
 	await cyoaDatabase.put({
 		name: body.meta.name,
 		hash: body.meta.hash,
 		isShared: body.meta.isShared,
-		file: filename,
+		file: filename
 	});
 
 	// it's common to return JSON, so SvelteKit has a helper

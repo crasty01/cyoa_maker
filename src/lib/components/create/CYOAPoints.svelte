@@ -7,7 +7,7 @@
 </script>
 
 {#if $dataStore.points.size > 0}
-	<div class="card variant-ghost-primary min-w-[16rem] flex-auto px-4 py-4">
+	<div class="card variant-ghost-primary bg-primary-300 min-w-[16rem] flex-auto px-4 py-4">
 		{#if $dataStore.isBeingEdited}
 			<label class="label mb-4 flex select-none content-between gap-2 px-2">
 				<span>show invisible points</span>

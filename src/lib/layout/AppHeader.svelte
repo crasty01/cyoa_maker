@@ -2,10 +2,15 @@
 	import { AppBar } from '@skeletonlabs/skeleton';
 </script>
 
-<AppBar gridColumns="grid-cols-3" slotDefault="place-self-center" slotTrail="place-content-end">
+<AppBar
+	padding="px-4 py-2"
+	gridColumns="grid-cols-3"
+	slotDefault="place-self-center"
+	slotTrail="place-content-end"
+>
 	<svelte:fragment slot="lead">
-		<a href="/" class="btn btn-sm text-xl hover:bg-white/5 h1 font-extrabold"
-			>Interactive CYOA maker</a
-		>
+		<a href="/" class="btn btn-sm h1 text-xl font-extrabold hover:bg-white/5">
+			<span>Interactive CYOA maker</span>
+		</a>
 	</svelte:fragment>
 </AppBar>

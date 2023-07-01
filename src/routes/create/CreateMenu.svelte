@@ -38,7 +38,7 @@
 					required: true,
 					type: 'text',
 					minlength: 5,
-					maxlength: 50,
+					maxlength: 50
 				},
 				response: resolve
 			})
@@ -55,7 +55,7 @@
 					required: true,
 					type: 'password',
 					minlength: 5,
-					maxlength: 50,
+					maxlength: 50
 				},
 				response: resolve
 			})
@@ -63,16 +63,15 @@
 		console.log('pasword:', pasword);
 
 		if (!pasword) return;
-		
-		
+
 		await sendDataToBackend($dataStore, name, pasword, true);
 	};
 </script>
 
 <div class="fixed bottom-0 right-0 z-10 flex items-end gap-4 p-4">
 	{#if showmenu}
-		<div in:fade out:fade class="w-min min-w-[20rem]">
-			<Accordion class="card px-2 py-4 text-token" regionControl="bg-surface-300-600-token">
+		<div in:fade out:fade class="w-min min-w-[20rem] ">
+			<Accordion class="card px-2 py-4 text-token" regionControl="bg-surface-300">
 				<AccordionItem open>
 					<svelte:fragment slot="lead">
 						<Icon class="text-2xl" icon="material-symbols:create-new-folder-rounded" />
@@ -152,11 +151,7 @@
 							>
 								clear
 							</button>
-							<button
-								type="button"
-								class="btn variant-filled-error w-full"
-								on:click={() => save()}
-							>
+							<button type="button" class="btn variant-filled-error w-full" on:click={() => save()}>
 								save
 							</button>
 						</div>
@@ -167,10 +162,7 @@
 	{/if}
 
 	<div class="fab flex flex-col gap-4">
-		<a
-			href="/"
-			class="btn-icon btn-icon-lg variant-filled-surface"
-		>
+		<a href="/" class="btn-icon btn-icon-lg variant-filled-surface">
 			<Icon icon="material-symbols:home-rounded" class="text-2xl" />
 		</a>
 		<a
