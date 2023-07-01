@@ -1,4 +1,5 @@
 import { derived, writable, type Readable, get } from 'svelte/store';
+import { localStorageStore } from '@skeletonlabs/skeleton';
 
 export type PointInfo = {
 	id: string;
@@ -89,7 +90,31 @@ const createDefaultDataStore = (): DataStore => ({
 	rowsArray: []
 });
 
-export const dataStore = writable<DataStore>(createDefaultDataStore());
+export const dataStore = localStorageStore<DataStore>('data-store', createDefaultDataStore(), {
+	storage: 'local',
+	serializer: {
+		stringify: (object) =>
+			JSON.stringify({
+				isBeingEdited: object.isBeingEdited,
+				cards: [...object.cards.values()],
+				flags: [...object.flags.values()],
+				points: [...object.points.values()],
+				rows: [...object.rows.values()],
+				rowsArray: object.rowsArray
+			}),
+		parse: (text) => {
+			const parsed = JSON.parse(text);
+			return {
+				isBeingEdited: parsed.isBeingEdited,
+				cards: new Map(parsed.cards.map((card: CardInfo) => [card.id, card])),
+				flags: new Map(parsed.flags.map((flag: FlagInfo) => [flag.id, flag])),
+				points: new Map(parsed.points.map((point: PointInfo) => [point.id, point])),
+				rows: new Map(parsed.rows.map((row: RowInfo) => [row.id, row])),
+				rowsArray: parsed.rowsArray
+			};
+		}
+	}
+});
 
 export const clearDataStore = () => {
 	dataStore.set(createDefaultDataStore());
