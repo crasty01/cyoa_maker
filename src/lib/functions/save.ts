@@ -18,18 +18,17 @@ const simplifyDataStore = (
 
 export const stringify = (data: DataStore): string =>
 	JSON.stringify({
-		isBeingEdited: data.isBeingEdited,
 		...simplifyDataStore(data)
 	});
 
 export const parse = (text: string): DataStore => {
 	const parsed = JSON.parse(text);
 	return {
-		isBeingEdited: parsed.isBeingEdited,
 		cards: new Map(parsed.cards.map((card: CardInfo) => [card.id, card])),
 		flags: new Map(parsed.flags.map((flag: FlagInfo) => [flag.id, flag])),
 		points: new Map(parsed.points.map((point: PointInfo) => [point.id, point])),
 		rows: new Map(parsed.rows.map((row: RowInfo) => [row.id, row])),
+		images: parsed.images,
 		rowsArray: parsed.rowsArray
 	};
 };
@@ -113,5 +112,36 @@ export const getNamesFromBackend = async (
 		return data;
 	} else {
 		throw new Error('Could not get names');
+	}
+};
+
+export const uploadImagesToBackend = async (fileList: FileList): Promise<Array<string>> => {
+	let idList: Array<string> = [];
+
+	await Promise.all(
+		Array.from(fileList).map(async (file) => {
+			const formData = new FormData();
+			formData.append('file', file);
+			const res = await fetch(`/api/cyoa/upload`, {
+				method: 'POST',
+				body: formData
+			});
+
+			if (res.ok) {
+				idList.push((await res.json())?.[0]);
+			}
+		})
+	);
+
+	return idList;
+};
+
+export const getImageDataFromBackend = async (imageId: string): Promise<string> => {
+	const response = await fetch(`/api/image/${imageId}`);
+	if (response.ok) {
+		const blob = await response.blob();
+		return URL.createObjectURL(blob);
+	} else {
+		throw new Error('Invalid image');
 	}
 };

@@ -3,11 +3,14 @@
 	import { dataStore, type CardInfo } from '$lib/stores/data';
 	import Icon from '@iconify/svelte';
 	import { modalStore } from '@skeletonlabs/skeleton';
+	import CYOAImageSelector from './CYOAImageSelector.svelte';
 
 	export let card: CardInfo;
 
 	// let formData: RowInfo = row;
 	let formData: CardInfo = card && structuredClone(card);
+
+	$: imageList = $dataStore.images;
 
 	// Handle Form Submission
 	const onFormSubmit = (): void => {
@@ -23,7 +26,8 @@
 </script>
 
 {#if $modalStore[0]}
-	<div class="modal-example-form card w-modal space-y-4 p-4 shadow-xl">
+	<div class="modal-example-form card w-modal max-h-[80vh] space-y-4 overflow-auto p-4 shadow-xl">
+		<h2 class="h2 font-extrabold">general card settings</h2>
 		<form class="modal-form space-y-4 border border-surface-500 p-4 rounded-container-token">
 			<label class="label">
 				<span>name</span>
@@ -105,6 +109,11 @@
 				<span>show price</span>
 				<input type="checkbox" class="input w-4" bind:checked={formData.show_price} />
 			</label>
+		</form>
+
+		<form class="modal-form space-y-4 border border-surface-500 p-4 rounded-container-token">
+			<h2 class="h2 font-extrabold">general card settings</h2>
+			<CYOAImageSelector bind:selectedImageId={formData.imageId} />
 		</form>
 
 		<slot />

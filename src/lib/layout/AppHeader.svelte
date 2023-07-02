@@ -13,4 +13,13 @@
 			<span>Interactive CYOA maker</span>
 		</a>
 	</svelte:fragment>
+
+	<svelte:fragment slot="trail">
+		<a href="/create" class="btn btn-sm h1 text-xl font-extrabold hover:bg-white/5">
+			<span>Create</span>
+		</a>
+		<a href="/view" class="btn btn-sm h1 text-xl font-extrabold hover:bg-white/5">
+			<span>View</span>
+		</a>
+	</svelte:fragment>
 </AppBar>

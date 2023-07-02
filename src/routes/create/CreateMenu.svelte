@@ -3,6 +3,7 @@
 	import Icon from '@iconify/svelte';
 	import { Accordion, AccordionItem, modalStore } from '@skeletonlabs/skeleton';
 	import { clearDataStore, dataStore } from '$lib/stores/data';
+	import CYOAImageUpload from '$lib/components/create/CYOAImageUpload.svelte';
 
 	import {
 		createAndSaveBasicRow,
@@ -10,7 +11,7 @@
 		createAndSaveBasicFlag
 	} from '$lib/functions/basicDataGeneration';
 	import { createChooseTreeRow } from '$lib/functions/advancedDataGeneration';
-	import { sendDataToBackend } from '$lib/functions/save';
+	import { sendDataToBackend, uploadImagesToBackend } from '$lib/functions/save';
 
 	let showmenu = true;
 
@@ -66,11 +67,28 @@
 
 		await sendDataToBackend($dataStore, name, pasword, true);
 	};
+
+	const uploadImages = async () => {
+		const response = await new Promise<FileList>((resolve) =>
+			modalStore.trigger({
+				type: 'component',
+				component: {
+					ref: CYOAImageUpload
+				},
+				response: resolve
+			})
+		);
+
+		if (!response) return;
+		const res = await uploadImagesToBackend(response);
+
+		$dataStore.images = [...($dataStore.images ?? []), ...res];
+	};
 </script>
 
 <div class="fixed bottom-0 right-0 z-10 flex items-end gap-4 p-4">
 	{#if showmenu}
-		<div in:fade out:fade class="w-min min-w-[20rem] ">
+		<div in:fade out:fade class="w-min min-w-[20rem]">
 			<Accordion class="card px-2 py-4 text-token" regionControl="bg-surface-300">
 				<AccordionItem open>
 					<svelte:fragment slot="lead">
@@ -133,6 +151,23 @@
 								on:click={() => createAndSaveBasicFlag()}
 							>
 								add basic flag
+							</button>
+						</div>
+					</svelte:fragment>
+				</AccordionItem>
+				<AccordionItem open>
+					<svelte:fragment slot="lead">
+						<Icon class="text-2xl" icon="material-symbols:imagesmode" />
+					</svelte:fragment>
+					<svelte:fragment slot="summary">images</svelte:fragment>
+					<svelte:fragment slot="content">
+						<div class="list">
+							<button
+								type="button"
+								class="btn variant-filled-primary w-full"
+								on:click={() => uploadImages()}
+							>
+								upload images
 							</button>
 						</div>
 					</svelte:fragment>

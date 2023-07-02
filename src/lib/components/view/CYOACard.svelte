@@ -37,21 +37,33 @@
 </script>
 
 <div
-	class="card relative flex flex-col flex-grow p-4 border-2 ring-0 border-transparent shadow-primary-300 {card.selected > 0
-		? 'bg-primary-300 border-primary-500'
+	class="card relative flex flex-grow flex-col border-2 border-transparent p-4 shadow-primary-300 ring-0 {card.selected >
+	0
+		? 'border-primary-500 bg-primary-300'
 		: 'bg-primary-100'} {connectedflagValue || !connectedflagValueRow ? '' : 'opacity-40'}"
 >
-	<div class="flex items-baseline gap-4">
-		<h3 class="h3 pb-2 font-bold">{card.name}</h3>
-		{#if card.show_price}
-			<div>price: {card.price} {pointName}</div>
+	<div class="flex flex-col gap-8">
+		{#if card.imageId}
+			<img
+				class="max-h-[40rem] w-full max-w-lg object-cover rounded-container-token"
+				src={`/api/image/${card.imageId}`}
+				alt=""
+			/>
 		{/if}
+		<article>
+			<div class="flex items-baseline gap-4">
+				<h3 class="h3 pb-2 font-bold">{card.name}</h3>
+				{#if card.show_price && card.pointId}
+					<div>price: {card.price}</div>
+				{/if}
+			</div>
+			<p class="max-w-lg">{card.description}</p>
+		</article>
 	</div>
-	<p class="max-w-xl">{card.description}</p>
 
-	<div class="card__footer mt-4 flex-grow flex flex-col justify-end">
+	<div class="card__footer mt-4 flex flex-grow flex-col justify-end">
 		{#if card.max_stack > 1}
-			<div class="flex justify-center items-center gap-4">
+			<div class="flex items-center justify-center gap-4">
 				<button type="button" class="btn variant-filled-primary" on:click={() => selectCard(+1)}>
 					<Icon icon="material-symbols:add-rounded" />
 					<span>add</span>

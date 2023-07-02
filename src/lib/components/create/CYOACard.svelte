@@ -76,19 +76,30 @@
 </script>
 
 <div
-	class="card relative flex flex-col flex-grow p-4 {card.selected > 0
+	class="card relative flex flex-grow flex-col p-4 {card.selected > 0
 		? 'variant-ghost-primary'
 		: 'variant-ghost-surface'} {connectedflagValue || !connectedflagValueRow ? '' : 'opacity-40'}"
 >
-	<div class="flex items-baseline gap-4">
-		<h3 class="h3 pb-2 font-bold">{card.name}</h3>
-		<div class={card.show_price ? '' : 'line-through'}>price: {card.price}</div>
+	<div class="flex flex-col gap-8">
+		{#if card.imageId}
+			<img
+				class="max-w-lg object-cover rounded-container-token"
+				src={`/api/image/${card.imageId}`}
+				alt=""
+			/>
+		{/if}
+		<article>
+			<div class="flex items-baseline gap-4">
+				<h3 class="h3 pb-2 font-bold">{card.name}</h3>
+				<div class={card.show_price ? '' : 'line-through'}>price: {card.price}</div>
+			</div>
+			<p class="max-w-lg">{card.description}</p>
+		</article>
 	</div>
-	<p class="max-w-xl">{card.description}</p>
 
-	<div class="card__footer mt-4 flex-grow flex flex-col justify-end">
+	<div class="card__footer mt-4 flex flex-grow flex-col justify-end">
 		{#if card.max_stack > 1}
-			<div class="flex justify-center items-center gap-4">
+			<div class="flex items-center justify-center gap-4">
 				<button type="button" class="btn variant-filled-primary" on:click={() => selectCard(+1)}>
 					<Icon icon="material-symbols:add-rounded" />
 					<span>add</span>

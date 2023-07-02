@@ -4,7 +4,7 @@
 	import { dataStore } from '$lib/stores/data';
 </script>
 
-<div class="flex flex-col py-4 px-8 gap-4">
+<div class="flex flex-col gap-4 py-4 md:px-8">
 	{#each $dataStore.rowsArray as rowId}
 		{@const row = $dataStore.rows.get(rowId)}
 		{#if row}

@@ -5,6 +5,6 @@ const deta = Deta(DETA_KEY);
 
 export const cyoaDatabase = deta.Base('cyoa_database');
 export const cyoaDrive = deta.Drive('cyoa_drive');
-export const cyoaimages = deta.Drive('cyoa_images');
+export const cyoaImages = deta.Drive('cyoa_images');
 
 export default deta;

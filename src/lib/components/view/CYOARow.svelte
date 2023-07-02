@@ -9,11 +9,20 @@
 	$: connectedflagValue = row.flagId ? getFlagValue($dataStore.flags.get(row.flagId)!) : true;
 </script>
 
-<div
-	class="cyoa_row relative p-4 {connectedflagValue ? '' : 'opacity-40'}"
->
-	<h2 class="h2 pb-2 font-extrabold">{row.name}</h2>
-	<p class="max-w-xl">{row.description}</p>
+<div class="cyoa_row relative p-4 {connectedflagValue ? '' : 'opacity-40'}">
+	<div class="flex gap-8 max-md:flex-col">
+		{#if row.imageId}
+			<img
+				class="max-h-80 object-cover rounded-container-token"
+				src={`/api/image/${row.imageId}`}
+				alt=""
+			/>
+		{/if}
+		<article>
+			<h2 class="h2 pb-2 font-extrabold">{row.name}</h2>
+			<p class="max-w-xl">{row.description}</p>
+		</article>
+	</div>
 
 	{#if row.cards.length > 0}
 		<div class="mt-4 flex flex-wrap gap-2">

@@ -3,6 +3,7 @@
 	import { dataStore, type RowInfo } from '$lib/stores/data';
 	import Icon from '@iconify/svelte';
 	import { modalStore } from '@skeletonlabs/skeleton';
+	import CYOAImageSelector from './CYOAImageSelector.svelte';
 
 	export let row: RowInfo;
 
@@ -24,7 +25,7 @@
 </script>
 
 {#if $modalStore[0]}
-	<div class="modal-example-form card w-modal space-y-4 p-4 shadow-xl">
+	<div class="modal-example-form card w-modal max-h-[80vh] space-y-4 overflow-auto p-4 shadow-xl">
 		<h2 class="h2 font-extrabold">row settings</h2>
 		<form class="modal-form space-y-4 border border-surface-500 p-4 rounded-container-token">
 			<h3 class="h3 font-extrabold">basic row settings</h3>
@@ -110,6 +111,11 @@
 				<span>show price</span>
 				<input type="checkbox" class="input w-4" bind:checked={formData.cardDefault.show_price} />
 			</label>
+		</form>
+
+		<form class="modal-form space-y-4 border border-surface-500 p-4 rounded-container-token">
+			<h3 class="h3 font-extrabold">choose image</h3>
+			<CYOAImageSelector bind:selectedImageId={formData.imageId} />
 		</form>
 
 		<slot />

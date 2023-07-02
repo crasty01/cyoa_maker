@@ -67,8 +67,19 @@
 <div
 	class="cyoa_row card variant-ghost-surface relative p-4 {connectedflagValue ? '' : 'opacity-40'}"
 >
-	<h2 class="h2 pb-2 font-extrabold">{row.name}</h2>
-	<p class="max-w-xl">{row.description}</p>
+	<div class="flex gap-8 max-md:flex-col">
+		{#if row.imageId}
+			<img
+				class="max-h-80 object-cover rounded-container-token"
+				src={`/api/image/${row.imageId}`}
+				alt=""
+			/>
+		{/if}
+		<article>
+			<h2 class="h2 pb-2 font-extrabold">{row.name}</h2>
+			<p class="max-w-xl">{row.description}</p>
+		</article>
+	</div>
 
 	{#if row.cards.length > 0}
 		<div class="mt-4 flex flex-wrap gap-2">
@@ -83,17 +94,15 @@
 		</div>
 	{/if}
 
-	{#if $dataStore.isBeingEdited}
-		<div class="edit absolute right-4 top-4">
-			<button type="button" class="btn variant-filled-primary" on:click={showRowEditModal}>
-				<span>edit</span>
-			</button>
-			<button type="button" class="btn variant-filled-primary" on:click={addCard}>
-				<span>add card</span>
-			</button>
-			<button type="button" class="btn variant-filled-primary" on:click={removeRow}>
-				<span>remove row</span>
-			</button>
-		</div>
-	{/if}
+	<div class="edit absolute right-4 top-4">
+		<button type="button" class="btn variant-filled-primary" on:click={showRowEditModal}>
+			<span>edit</span>
+		</button>
+		<button type="button" class="btn variant-filled-primary" on:click={addCard}>
+			<span>add card</span>
+		</button>
+		<button type="button" class="btn variant-filled-primary" on:click={removeRow}>
+			<span>remove row</span>
+		</button>
+	</div>
 </div>

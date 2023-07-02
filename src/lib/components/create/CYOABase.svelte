@@ -5,7 +5,7 @@
 	import { dataStore } from '$lib/stores/data';
 </script>
 
-<div class="flex flex-col gap-4 px-20 py-4 mb-[40vh]">
+<div class="mb-[40vh] flex flex-col gap-4 px-20 py-4">
 	{#each $dataStore.rowsArray as rowId}
 		{@const row = $dataStore.rows.get(rowId)}
 		{#if row}

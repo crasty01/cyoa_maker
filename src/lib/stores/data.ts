@@ -1,4 +1,3 @@
-import { derived, writable, type Readable, get } from 'svelte/store';
 import { localStorageStore } from '@skeletonlabs/skeleton';
 
 export type PointInfo = {
@@ -21,6 +20,7 @@ export type CardInfo = {
 	max_stack: number;
 	rowId: string;
 	flagId?: string;
+	imageId?: string;
 };
 
 export type RowInfo = {
@@ -31,6 +31,7 @@ export type RowInfo = {
 	flags: Array<string>;
 	cardDefault: Pick<CardInfo, 'max_stack' | 'pointId' | 'price' | 'show_price' | 'flagId'>;
 	flagId?: string;
+	imageId?: string;
 };
 
 export const evaluationTypes = [
@@ -71,22 +72,21 @@ export type FlagInfo = {
 };
 
 export type DataStore = {
-	isBeingEdited: boolean;
 	points: Map<string, PointInfo>;
 	flags: Map<string, FlagInfo>;
 	cards: Map<string, CardInfo>;
 	rows: Map<string, RowInfo>;
 	rowsArray: Array<string>; // just for ordering
-
+	images: Array<string>;
 	// TODO: Add styles/calsses
 };
 
 const createDefaultDataStore = (): DataStore => ({
-	isBeingEdited: true,
 	points: new Map<string, PointInfo>(),
 	flags: new Map<string, FlagInfo>(),
 	cards: new Map<string, CardInfo>(),
 	rows: new Map<string, RowInfo>(),
+	images: [],
 	rowsArray: []
 });
 
@@ -95,21 +95,21 @@ export const dataStore = localStorageStore<DataStore>('data-store', createDefaul
 	serializer: {
 		stringify: (object) =>
 			JSON.stringify({
-				isBeingEdited: object.isBeingEdited,
 				cards: [...object.cards.values()],
 				flags: [...object.flags.values()],
 				points: [...object.points.values()],
 				rows: [...object.rows.values()],
+				images: object.images,
 				rowsArray: object.rowsArray
 			}),
 		parse: (text) => {
 			const parsed = JSON.parse(text);
 			return {
-				isBeingEdited: parsed.isBeingEdited,
 				cards: new Map(parsed.cards.map((card: CardInfo) => [card.id, card])),
 				flags: new Map(parsed.flags.map((flag: FlagInfo) => [flag.id, flag])),
 				points: new Map(parsed.points.map((point: PointInfo) => [point.id, point])),
 				rows: new Map(parsed.rows.map((row: RowInfo) => [row.id, row])),
+				images: parsed.images,
 				rowsArray: parsed.rowsArray
 			};
 		}

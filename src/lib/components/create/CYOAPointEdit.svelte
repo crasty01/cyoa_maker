@@ -20,8 +20,8 @@
 </script>
 
 {#if $modalStore[0]}
-	<div class="modal-example-form card w-modal space-y-4 p-4 shadow-xl">
-		<pre>{JSON.stringify(formData, null, 2)}</pre>
+	<div class="modal-example-form card w-modal max-h-[80vh] space-y-4 overflow-auto p-4 shadow-xl">
+		<!-- <pre>{JSON.stringify(formData, null, 2)}</pre> -->
 		<form class="modal-form space-y-4 border border-surface-500 p-4 rounded-container-token">
 			<label class="label">
 				<span>name</span>
