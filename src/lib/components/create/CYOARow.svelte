@@ -95,7 +95,7 @@
 		</div>
 	{/if}
 
-	<div class="edit absolute right-4 top-4">
+	<div class="edit absolute right-4 top-4 pl-4">
 		<button type="button" class="btn variant-filled-primary" on:click={showRowEditModal}>
 			<span>edit</span>
 		</button>

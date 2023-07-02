@@ -4,7 +4,7 @@
 
 	export let selectedImageId: string | undefined;
 
-	$: imageList = $dataStore.images;
+	$: imageList = $dataStore.images ?? [];
 
 	const selectImageId = (imageId: string) => {
 		if (selectedImageId === imageId) selectedImageId = undefined;
@@ -18,8 +18,7 @@
 			for={imageId}
 			class="relative aspect-square flex-grow basis-40 flex-wrap overflow-hidden rounded-container-token"
 		>
-			<img class="h-full w-full object-cover" src={`/api/image/${imageId}`} alt="" 
-			loading="lazy" />
+			<img class="h-full w-full object-cover" src={`/api/image/${imageId}`} alt="" loading="lazy" />
 			<div class="floating-buttons absolute right-2 top-2 flex gap-2">
 				<a
 					href={`/api/image/${imageId}`}

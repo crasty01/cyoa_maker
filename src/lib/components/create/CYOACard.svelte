@@ -83,7 +83,7 @@
 	<div class="flex flex-col gap-8">
 		{#if card.imageId}
 			<img
-				class="max-w-lg object-cover rounded-container-token"
+				class="max-h-[40rem] w-full max-w-lg object-cover rounded-container-token"
 				src={`/api/image/${card.imageId}`}
 				loading="lazy"
 				alt=""
