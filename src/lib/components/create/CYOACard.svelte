@@ -85,6 +85,7 @@
 			<img
 				class="max-w-lg object-cover rounded-container-token"
 				src={`/api/image/${card.imageId}`}
+				loading="lazy"
 				alt=""
 			/>
 		{/if}

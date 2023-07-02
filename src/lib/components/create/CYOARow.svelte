@@ -72,6 +72,7 @@
 			<img
 				class="max-h-80 object-cover rounded-container-token"
 				src={`/api/image/${row.imageId}`}
+				loading="lazy"
 				alt=""
 			/>
 		{/if}
